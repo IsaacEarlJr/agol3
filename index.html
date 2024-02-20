@@ -285,7 +285,7 @@ const airportLabels = {
 
 
    const airportLayer = new FeatureLayer({
-  url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer",
+  url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer/0",
   renderer: airportRenderer, //calling the icon
   definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
   labelingInfo: [airportLabels] //adding the labels
