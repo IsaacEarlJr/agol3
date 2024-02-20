@@ -317,17 +317,46 @@ map.add(newPointLayer);
 ///////////////////////////heliports layer////////////////////////////////////////
 
 
+//setting up the icon
+const heliRenderer = {
+  "type": "simple",
+  "symbol": {
+    "type": "picture-marker",
+    "url": "https://isaacearljr.github.io/agol3/outline_rocket_launch_black_24dp.png",
+    "width": "18px",
+    "height": "18px"
+  }
+}
+
+//const to make the heli labels
+const heliLabels = {
+  symbol: {
+    type: "text",
+    color: "#FFFFFF",
+    haloColor: "#5E8D74",
+    haloSize: "2px",
+    font: {
+      size: "12px",
+      family: "Noto Sans",
+      style: "italic",
+      weight: "normal"
+    }
+  },
+  labelPlacement: "above-center",
+  labelExpressionInfo: {
+    expression: "$feature.Fac_Name"
+  }
+};
+
 const heliLayer = new FeatureLayer({
   url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer",
-  renderer: airportRenderer, //calling the icon
+  renderer: heliRenderer, //calling the icon
   definitionExpression: "Based_Heli = 'YOUR_VALUE'", //adding sql to filter for Based_Heli
-  labelingInfo: [airportLabels] //adding the labels
+  labelingInfo: [heliLabels] //adding the labels
 });
 
 //adding the feature layer to the map
 map.add(heliLayer);
-
-
 
 
     });
