@@ -314,7 +314,18 @@ const newPointLayer = new FeatureLayer({
 map.add(newPointLayer);
 
 
+///////////////////////////heliports layer////////////////////////////////////////
 
+
+const heliLayer = new FeatureLayer({
+  url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer",
+  renderer: airportRenderer, //calling the icon
+  definitionExpression: "Based_Heli = 'YOUR_VALUE'", //adding sql to filter for Based_Heli
+  labelingInfo: [airportLabels] //adding the labels
+});
+
+//adding the feature layer to the map
+map.add(heliLayer);
 
 
 
