@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hello, AGOL!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+
+  <!-- calls for the arcgis api's CSS file and JS library. -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
+  <script>
+  
+
+  
+    require([
+     "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+
+      // adding in the modules for the graphic and graphic layer
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+
+      //adding in the module for the feature layers
+      "esri/layers/FeatureLayer"
+
+    ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer) {
+
+      esriConfig.apiKey = "AAPK220ba579086140dea4e25f522bf00c8bG3Mb_Pd1g_KKKi94wj2H2lL_ceoaHcU25yTWEgLu20jkuceWo9_tPekrNz5Yr-nu";
+      const map = new Map({
+        basemap: "arcgis-topographic" // Basemap layer
+      });
+
+      const view = new MapView({
+          map: map,
+          center: [-97.7431, 30.2672], // Longitude, latitude
+          zoom: 13, // Zoom level
+          container: "viewDiv" // Div element
+        });
+
+        //adding the const for the graphicslayer
+        const graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+
+
+
+
+      //defining popup properties  //must go before the graphic/point
+      const popupTemplate = {
+          title: "{Name}",
+          content: "{Description}"
+        }
+        const attributes = {
+          Name: "Darrell K Royal Texas Memorial Stadium",
+          Description: "Hookem' Horns"
+        }
+
+        //defining the geomeotry of the point
+        const point = { //Create a point
+          type: "point",
+          longitude: -97.7325,    //long lat of SLonghorns stadium
+          latitude: 30.2835,
+          attributes: attributes,
+          popupTemplate: popupTemplate
+        };
+        
+        //defining the maker style
+        const simpleMarkerSymbol = {
+          type: "simple-marker",
+          style: "x", //changed the style from default to x
+          color: [255, 255, 255],  // White
+          outline: {
+            color: [255, 70, 0], // Longhorn Orange
+            width: 2
+          }
+        };
+
+  
+
+        //creating the point
+        const pointGraphic = new Graphic({
+          geometry: point,
+          symbol: simpleMarkerSymbol,
+
+          //adding popup properites
+          attributes: attributes,
+          popupTemplate: popupTemplate
+        });
+         
+         //adding the point to the graphicsLayer
+         graphicsLayer.add(pointGraphic);
+
+
+
+
+// Define the polyline geometry for UT campus boundary
+const polyline = {
+  type: "polyline",
+  paths: [
+    // Add the coordinates of the campus boundary here
+    // thank you GEOJASON.IO aka MAPBOX FOR THE COORDINATES!!!
+    [
+            -97.74213811452034,
+            30.28192462303491
+          ],
+    [
+            -97.74211052642318,
+            30.281829327666728
+          ],
+          [
+            -97.74108976681305,
+            30.29188247884568
+          ],
+          [
+            -97.73888271900819,
+            30.29178719314912
+          ],
+          [
+            -97.73852407373965,
+            30.2945742615139
+          ],
+          [
+            -97.73275816134846,
+            30.28916680023184
+          ],
+          [
+            -97.73027523256765,
+            30.28916680023184
+          ],
+          [
+            -97.7219160390059,
+            30.284592855779778
+          ],
+          [
+            -97.72235744856698,
+            30.28352080670068
+          ],
+          [
+            -97.72398514632334,
+            30.283330218971386
+          ],
+          [
+            -97.723433384372,
+            30.28039988603109
+          ],
+          [
+            -97.72528178690888,
+            30.28009017093288
+          ],
+          [
+            -97.7251438464209,
+            30.279018072657237
+          ],
+          [
+            -97.73046834925101,
+            30.27832715867322
+          ],
+          [
+            -97.73179257793375,
+            30.274753388004072
+          ],
+          [
+            -97.73399962573913,
+            30.275301374620938
+          ],
+          [
+            -97.7330616304221,
+            30.278136560856098
+          ],
+          [
+            -97.73513073773901,
+            30.27882747618203
+          ],
+          [
+            -97.73457897578766,
+            30.279566035460903
+          ],
+          [
+            -97.74213811452034,
+            30.28192462303491
+          ],
+  ]
+};
+
+// Define the line symbol
+const lineSymbol = {
+  type: "simple-line",
+  color: [255, 70, 0], // Longhorn Orange
+  width: 2
+};
+
+// Create the polyline graphic
+const polylineGraphic = new Graphic({
+  geometry: polyline,
+  symbol: lineSymbol
+});
+
+// Add the polyline to the graphicsLayer
+graphicsLayer.add(polylineGraphic);
+
+
+
+
+
+
+
+
+
+
+
+
+         // Define a pop-up for usaeduLayer
+         const popupEduusa = {
+        "title": "EDUs",
+        "content": "<b>Name:</b> {INSTNM}<br><b>Address:</b> {ADDR}<br><b>Total Enrollment:</b> {INSTSIZE}<br><b>Highest level of offering:</b> {HLOFFER}<br><b>Website:</b> {WEBADDR}"
+};
+
+const usaeduLayerSymbol = {
+  type: "simple-marker",
+  size: "10px",
+  color: [255, 0, 0],  // Bright red
+  outline: {
+    color: [255, 255, 0], // Yellow
+    width: 3
+  }
+};
+
+const usaeduLayerRenderer = {
+  type: "simple",
+  symbol: usaeduLayerSymbol
+};
+
+         //adding the const for the feature layer
+         const usaeduLayer = new FeatureLayer({
+          url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
+
+          //adding the popup here
+          outFields: ["INSTNM","ADDR","INSTSIZE","HLOFFER","WEBADDR"],
+          popupTemplate: popupEduusa,
+          renderer: usaeduLayerRenderer
+
+        });
+
+        //adding the feature layer to the map
+        map.add(usaeduLayer);
+
+
+        //setting up the icon
+        const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "https://sounny.github.io/agol/outline_local_airport_black_24dp.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
+
+      //const to make the airport labels
+
+      const airportLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF",
+          haloColor: "#5E8D74",
+          haloSize: "2px",
+          font: {
+            size: "12px",
+            family: "Noto Sans",
+            style: "italic",
+            weight: "normal"
+          }
+        },
+
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+          expression: "$feature.Fac_Name"
+        }
+      };
+
+        const airportLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer",
+          renderer: airportRenderer,  //calling the icon
+
+          definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
+
+          labelingInfo: [airportLabels] //adding the labels 
+
+
+        });
+
+        //adding the feature layer to the map
+        map.add(airportLayer);
+
+
+
+        
+        const newPointLayerPopup = {
+  "title": "{PARK_NAME}",
+  "content": "<b>Address:</b> {ADDRESS}<br><b>Asset Type:</b> {ASSET_TYPE}"
+};
+
+
+const newPointLayer = new FeatureLayer({
+  url: "https://services.arcgis.com/0L95CJ0VTaxqcmED/arcgis/rest/services/pard_facility_points/FeatureServer",
+  outFields: ["PARK_NAME", "ADDRESS", "ASSET_TYPE"],
+  popupTemplate: newPointLayerPopup,
+  definitionExpression: "APP_CATEGORY = 'Recreation'"
+});
+
+map.add(newPointLayer);
+
+
+
+
+
+
+
+    });
+  </script>
+
+  <!-- css to make a full screen map -->
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%; 
+      width: 100%;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- the div to displays the map  -->
+  <div id="viewDiv"></div>
+
+</body>
+</html>
