@@ -283,8 +283,18 @@ const airportLabels = {
 };
 
 
+const popupairport = {
+"title": "AIRPORT NAME",
+"content": "<b>Name:</b> {Fac_Name}<br><b>City:</b> {City}<br><b>State:</b> {State}<br><b>Facility Type:</b> {Fac_Type}"
+
+};
+
+
    const airportLayer = new FeatureLayer({
   url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports/FeatureServer",
+
+  outfields: ["Fac_Name"],
+  popupTemplate: popupairport,
   renderer: airportRenderer, //calling the icon
   definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
   labelingInfo: [airportLabels] //adding the labels
